@@ -33,8 +33,8 @@ describe('Favorite Input', () => {
     render(<FavoriteInput onChange={onChangeMock} />);
     const input = screen.getByRole('textbox');
 
-    userEvent.type(input, 'Whale');
+    userEvent.type(input, 'Whal');
 
-    expect(input).toHaveValue('Whale');
+    expect(input).toHaveValue('Whal');
   });
 });
