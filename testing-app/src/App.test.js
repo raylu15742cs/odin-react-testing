@@ -1,23 +1,40 @@
-// App.test.js
+// FavoriteInput.test.js
 
 import React from 'react';
 import { render, screen } from '@testing-library/react';
+import '@testing-library/jest-dom';
 import userEvent from '@testing-library/user-event';
-import App from './App';
+import FavoriteInput from './App';
 
-describe('App component', () => {
-  it('renders magnificent monkeys', () => {
-    // since screen does not have the container property, we'll destructure render to obtain container for this test
-    const { container } = render(<App />);
-    expect(container).toMatchSnapshot();
+describe('Favorite Input', () => {
+  it('calls onChange correct number of times', () => {
+    const onChangeMock = jest.fn();
+    render(<FavoriteInput onChange={onChangeMock} />);
+    const input = screen.getByRole('textbox');
+
+    userEvent.type(input, 'Lion');
+
+    expect(onChangeMock).toHaveBeenCalledTimes(4);
   });
 
-  it('renders radical rhinos after button click', () => {
-    render(<App />);
-    const button = screen.getByRole('button', { name: 'Click Me' });
+  it('calls onChange with correct argument(s) on each input', () => {
+    const onChangeMock = jest.fn();
+    render(<FavoriteInput onChange={onChangeMock} />);
+    const input = screen.getByRole('textbox');
 
-    userEvent.click(button);
+    userEvent.type(input, 'Ox');
 
-    expect(screen.getByRole('heading').textContent).toMatch(/radical rhinos/i);
+    expect(onChangeMock).toHaveBeenNthCalledWith(1, 'O');
+    expect(onChangeMock).toHaveBeenNthCalledWith(2, 'Ox');
+  });
+
+  it('input has correct values', () => {
+    const onChangeMock = jest.fn();
+    render(<FavoriteInput onChange={onChangeMock} />);
+    const input = screen.getByRole('textbox');
+
+    userEvent.type(input, 'Whale');
+
+    expect(input).toHaveValue('Whale');
   });
 });
